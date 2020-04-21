@@ -11,12 +11,15 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Builder
 public class Promotion {
-	@NonNull
-	private int id;
-	
-	@NonNull
-	private int productId;
-	
-	@NonNull
-	private String productImageUrl;
+  @NonNull
+  private int id;
+
+  @NonNull
+  private int productId;
+
+  @NonNull
+  private String productImageUrl;
+
+  @NonNull
+  private int productImageId;
 }

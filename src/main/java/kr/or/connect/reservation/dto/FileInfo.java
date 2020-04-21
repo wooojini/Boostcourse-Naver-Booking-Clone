@@ -11,24 +11,24 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Builder
 public class FileInfo {
-	@NonNull
-	private int id;
-	
-	@NonNull
-	private String fileName;
-	
-	@NonNull
-	private String saveFileName;
-	
-	@NonNull
-	private String contentType;
-	
-	@NonNull
-	private boolean deleteFlag;
-	
-	@NonNull
-	private String createDate;
-	
-	@NonNull
-	private String modifyDate;
+  @NonNull
+  private int id;
+
+  @NonNull
+  private String fileName;
+
+  @NonNull
+  private String saveFileName;
+
+  @NonNull
+  private String contentType;
+
+  @NonNull
+  private boolean deleteFlag;
+
+  @NonNull
+  private String createDate;
+
+  @NonNull
+  private String modifyDate;
 }

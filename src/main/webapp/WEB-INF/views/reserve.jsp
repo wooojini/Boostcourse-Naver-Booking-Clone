@@ -194,10 +194,10 @@
 </body>
 
 <script type="myTemplate" id="thumnailItem">
-  <li class="item" style="width: 414px;"> <img alt="" class="img_thumb"
-            src="{{saveFileName}}">
+  <li class="item" style="width: 414px; data-id="{{displayInfoId}}"> 
+        <img alt="" class="img_thumb" src="" >
         <span class="img_bg"></span>
-        <div class="preview_txt">
+        <div class="preview_txt">"
             <h2 class="preview_txt_tit">{{productDescription}}</h2>
             <em class="preview_txt_dsc">2017.2.17.(금)~2017.4.18.(화), 잔여티켓 2769매</em>
         </div>

@@ -11,33 +11,33 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Builder
 public class ProductImage {
-	@NonNull
-	private String contentType;
-	
-	@NonNull
-	private String createDate;
-	
-	@NonNull
-	private boolean deleteFlag;
-	
-	@NonNull
-	private int fileInfoId;
-	
-	@NonNull
-	private String fileName;
-	
-	@NonNull
-	private String modifyDate;
-	
-	@NonNull
-	private int productId;
-	
-	@NonNull
-	private int productImageId;
-	
-	@NonNull
-	private String saveFileName;
-	
-	@NonNull
-	private String type;
+  @NonNull
+  private String contentType;
+
+  @NonNull
+  private String createDate;
+
+  @NonNull
+  private boolean deleteFlag;
+
+  @NonNull
+  private int fileInfoId;
+
+  @NonNull
+  private String fileName;
+
+  @NonNull
+  private String modifyDate;
+
+  @NonNull
+  private int productId;
+
+  @NonNull
+  private int productImageId;
+
+  @NonNull
+  private String saveFileName;
+
+  @NonNull
+  private String type;
 }

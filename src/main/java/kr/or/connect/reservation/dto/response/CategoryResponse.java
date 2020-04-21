@@ -1,7 +1,6 @@
 package kr.or.connect.reservation.dto.response;
 
 import java.util.List;
-
 import kr.or.connect.reservation.dto.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +13,6 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Builder
 public class CategoryResponse {
-	@NonNull
-	List<Category> items;
+  @NonNull
+  List<Category> items;
 }

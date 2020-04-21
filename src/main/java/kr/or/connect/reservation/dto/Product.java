@@ -11,21 +11,24 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Builder
 public class Product {
-	@NonNull
-	private int displayInfoId;
-	
-	@NonNull
-	private String placeName;
-	
-	@NonNull
-	private String productContent;
-	
-	@NonNull
-	private String productDescription;
-	
-	@NonNull
-	private int productId;
-	
-	@NonNull
-	private String productImageUrl;
+  @NonNull
+  private int displayInfoId;
+
+  @NonNull
+  private String placeName;
+
+  @NonNull
+  private String productContent;
+
+  @NonNull
+  private String productDescription;
+
+  @NonNull
+  private int productId;
+
+  @NonNull
+  private String productImageUrl;
+
+  @NonNull
+  int productImageId;
 }

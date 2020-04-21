@@ -11,15 +11,15 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Builder
 public class ReservationPrice {
-	@NonNull
-	private int count;
+  @NonNull
+  private int count;
 
-	@NonNull
-	private int productPriceId;
-	
-	@NonNull
-	private int reservationInfoId;
-	
-	@NonNull
-	private int reservationInfoPriceId;
+  @NonNull
+  private int productPriceId;
+
+  @NonNull
+  private int reservationInfoId;
+
+  @NonNull
+  private int reservationInfoPriceId;
 }

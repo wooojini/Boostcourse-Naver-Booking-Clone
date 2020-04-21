@@ -11,30 +11,30 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Builder
 public class DisplayInfoImage {
-	@NonNull
-	private String contentType;
-	
-	@NonNull
-	private String createDate;
-	
-	@NonNull
-	private boolean deleteFlag;
-	
-	@NonNull
-	private int displayInfoId;
-	
-	@NonNull
-	private int displayInfoImageId;
-	
-	@NonNull
-	private int fileId;
-	
-	@NonNull
-	private String fileName;
-	
-	@NonNull
-	private String modifyDate;
-	
-	@NonNull
-	private String saveFileName;
+  @NonNull
+  private String contentType;
+
+  @NonNull
+  private String createDate;
+
+  @NonNull
+  private boolean deleteFlag;
+
+  @NonNull
+  private int displayInfoId;
+
+  @NonNull
+  private int displayInfoImageId;
+
+  @NonNull
+  private int fileId;
+
+  @NonNull
+  private String fileName;
+
+  @NonNull
+  private String modifyDate;
+
+  @NonNull
+  private String saveFileName;
 }

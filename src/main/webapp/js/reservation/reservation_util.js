@@ -102,20 +102,12 @@ Ajax.URL.SERVER_URL = {
 Ajax.URL.API = {
     GET_PROMOTIONS: Ajax.URL.SERVER_URL.DEVELOPE +
         "/api/promotions",
-    GET_PROMOTION_IMAGE: Ajax.URL.SERVER_URL.DEVELOPE +
-        "/download/promotions",
     GET_CATEGORIES: Ajax.URL.SERVER_URL.DEVELOPE +
         "/api/categories",
     GET_PRODUCTS: Ajax.URL.SERVER_URL.DEVELOPE +
         "/api/products",
-    GET_PRODUCT_IMAGE: Ajax.URL.SERVER_URL.DEVELOPE +
-        "/download/products",
     GET_PRODUCTS_DETAIL: Ajax.URL.SERVER_URL.DEVELOPE +
         "/api/products/",
-    GET_PRODUCTS_DETAIL_IMG: Ajax.URL.SERVER_URL.DEVELOPE +
-        "/download/products/",
-    GET_PRODUCTS_DETAIL_MAP_IMG: Ajax.URL.SERVER_URL.DEVELOPE +
-        "/download/products/detail/",
     GET_RESERVATIONS: Ajax.URL.SERVER_URL.DEVELOPE +
         "/api/reservations",
     POST_RESERVATIONS: Ajax.URL.SERVER_URL.DEVELOPE +
@@ -124,6 +116,13 @@ Ajax.URL.API = {
         "/api/reservations/",
     POST_COMMENTS: Ajax.URL.SERVER_URL.DEVELOPE +
         "/api/reservations/{id}/comments",
+
+    GET_PROMOTION_IMAGE: Ajax.URL.SERVER_URL.DEVELOPE +
+        "/download/promotions/",
+    GET_PRODUCT_IMAGE: Ajax.URL.SERVER_URL.DEVELOPE +
+        "/download/products/",
+    GET_DISPLAY_IMAGE: Ajax.URL.SERVER_URL.DEVELOPE +
+        "/download/displays/",
     GET_COMMENTS_IMG: Ajax.URL.SERVER_URL.DEVELOPE +
         "/download/comments/",
 };

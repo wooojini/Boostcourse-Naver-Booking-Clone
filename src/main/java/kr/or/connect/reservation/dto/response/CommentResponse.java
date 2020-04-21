@@ -1,6 +1,7 @@
-package kr.or.connect.reservation.dto;
+package kr.or.connect.reservation.dto.response;
 
-import java.util.List;
+import javax.validation.constraints.Positive;
+import kr.or.connect.reservation.dto.CommentImage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,15 +12,16 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Comment {
+public class CommentResponse {
   @NonNull
   private String comment;
 
   @NonNull
+  @Positive
   private int commentId;
 
   @NonNull
-  private List<CommentImage> commentImages;
+  private CommentImage commentImage;
 
   @NonNull
   private String createDate;
@@ -28,23 +30,13 @@ public class Comment {
   private String modifyDate;
 
   @NonNull
+  @Positive
   private int productId;
 
   @NonNull
-  private String reservationDate;
-
-  @NonNull
-  private String reservationEmail;
-
-  @NonNull
+  @Positive
   private int reservationInfoId;
 
   @NonNull
-  private String reservationName;
-
-  @NonNull
-  private String reservationTelephone;
-
-  @NonNull
-  private double score;
+  private int score;
 }

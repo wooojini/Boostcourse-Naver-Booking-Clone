@@ -11,37 +11,39 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Builder
 public class ReservationInfo {
-	@NonNull
-	private String reservationName;
-	
-	@NonNull
-	private String reservationEmail;
-	
-	@NonNull
-	private String reservationTelephone;
-	
-	@NonNull
-	private String reservationDate;
-	
-	@NonNull
-	private int productId;
-	
-	@NonNull
-	@Builder.Default private int totalPrice = 0;
-	
-	@NonNull
-	private int displayInfoId;
-	
-	private int reservationInfoId;
-	
-	@NonNull
-	@Builder.Default private boolean cancelYn = false;
-	
-	@NonNull
-	private String createDate;
-	
-	@NonNull
-	private String modifyDate;
-	
-	private DisplayInfo displayInfo;
+  @NonNull
+  private String reservationName;
+
+  @NonNull
+  private String reservationEmail;
+
+  @NonNull
+  private String reservationTelephone;
+
+  @NonNull
+  private String reservationDate;
+
+  @NonNull
+  private int productId;
+
+  @NonNull
+  @Builder.Default
+  private int totalPrice = 0;
+
+  @NonNull
+  private int displayInfoId;
+
+  private int reservationInfoId;
+
+  @NonNull
+  @Builder.Default
+  private boolean cancelYn = false;
+
+  @NonNull
+  private String createDate;
+
+  @NonNull
+  private String modifyDate;
+
+  private DisplayInfo displayInfo;
 }

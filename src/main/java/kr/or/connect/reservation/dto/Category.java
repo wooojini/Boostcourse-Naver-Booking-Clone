@@ -11,12 +11,12 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Builder
 public class Category {
-	@NonNull
-	private int id;
-	
-	@NonNull
-	private String name;
-	
-	@NonNull
-	private int count;
+  @NonNull
+  private int id;
+
+  @NonNull
+  private String name;
+
+  @NonNull
+  private int count;
 }

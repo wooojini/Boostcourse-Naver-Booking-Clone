@@ -11,33 +11,33 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Builder
 public class CommentImage {
-	@NonNull
-	private String contentType;
-	
-	@NonNull
-	private String createDate;
-	
-	@NonNull
-	private boolean deleteFlag;
-	
-	@NonNull
-	private int fileId;	
-	
-	@NonNull
-	private String fileName;	 
-	
-	@NonNull
-	private int imageId;
-	
-	@NonNull
-	private String modifyDate;	
-	
-	@NonNull
-	private int reservationInfoId;
-	
-	@NonNull
-	private int reservationUserCommentId;	
-	
-	@NonNull
-	private String saveFileName;
+  @NonNull
+  private String contentType;
+
+  @NonNull
+  private String createDate;
+
+  @NonNull
+  private boolean deleteFlag;
+
+  @NonNull
+  private int fileId;
+
+  @NonNull
+  private String fileName;
+
+  @NonNull
+  private int imageId;
+
+  @NonNull
+  private String modifyDate;
+
+  @NonNull
+  private int reservationInfoId;
+
+  @NonNull
+  private int reservationUserCommentId;
+
+  @NonNull
+  private String saveFileName;
 }
