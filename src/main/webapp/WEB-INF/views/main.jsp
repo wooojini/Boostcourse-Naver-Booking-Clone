@@ -20,7 +20,7 @@
     <script src="./js/lib/handlebars.min-v4.7.3.js"></script>
     <script type="module" src="./js/mainpage.js?ver=1.0"></script>
   </head>
-
+  
   <body>
     <div id="container">
       <div class="header" name="top">

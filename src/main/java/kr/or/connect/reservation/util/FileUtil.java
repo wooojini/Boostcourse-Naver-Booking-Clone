@@ -53,11 +53,11 @@ public class FileUtil {
     checkDirectory(dir);
 
     // 파일이름 체크
-    String saveFileName = file.getOriginalFilename();
-    String filePath = rootPath + uploadPath + saveFileName;
+    String fileName = file.getOriginalFilename();
+    String filePath = rootPath + uploadPath + fileName;
     if (isFileExist(filePath)) {
-      saveFileName = changeFileName(saveFileName);
-      filePath = rootPath + uploadPath + saveFileName;
+      fileName = changeFileName(fileName);
+      filePath = rootPath + uploadPath + fileName;
     }
 
     try (FileOutputStream fos = new FileOutputStream(filePath);
@@ -70,10 +70,10 @@ public class FileUtil {
 
     } catch (Exception e) {
       log.error(e.getMessage());
-      new RuntimeException("File Save Error!");
+      throw new RuntimeException(e);
     }
 
-    return uploadPath + saveFileName;
+    return uploadPath + fileName;
   }
 
   private static void checkDirectory(File dir) {
@@ -87,6 +87,7 @@ public class FileUtil {
   }
 
   private static String changeFileName(String fileName) {
+    // 중복된 이름을 가진 파일은 파일이름에 현재시간을 붙여서 중복된 이름을 변경.
     long nowTime = System.currentTimeMillis();
     return fileName.replaceFirst(FILE_NAME_PATTERN, "$1_" + nowTime + "$2");
   }

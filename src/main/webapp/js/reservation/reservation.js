@@ -2093,6 +2093,7 @@ kr.connect.reservation.service.Reserve = function () {
     ticketContainer: null,
     ticketQtyHtml: "",
     totalCount: null,
+    reserveBtnHandler: null,
 
     init: function (productTicketSelectors) {
       this.ticketContainer = document.querySelector(
@@ -2107,6 +2108,10 @@ kr.connect.reservation.service.Reserve = function () {
 
       this.initEvent();
     },
+    
+    setReserveBtnHandler: function(reserveBtnHandler) {
+		this.reserveBtnHandler = reserveBtnHandler;
+	},
 
     initEvent: function () {
       this.ticketContainer.addEventListener(
@@ -2174,6 +2179,7 @@ kr.connect.reservation.service.Reserve = function () {
         totalPriceNode.textContent = this.changeCurrencyPattern(
           ticketPrice * ticketCnt
         );
+        this.reserveBtnHandler.checkReserveBtn();
       }
     },
 
@@ -2285,6 +2291,7 @@ kr.connect.reservation.service.Reserve = function () {
     nameInputWarningMsg: null,
     emailInputWarningMsg: null,
     telInputWarningMsg: null,
+    reserveBtnHandler: null,
 
     postReservationData: {
       displayInfoId: 0,
@@ -2355,11 +2362,15 @@ kr.connect.reservation.service.Reserve = function () {
     setProductId: function (productId) {
       this.postReservationData.productId = productId;
     },
+    
+    setReserveBtnHandler: function(reserveBtnHandler){
+    	this.reserveBtnHandler = reserveBtnHandler;
+    },
 
     startFormValidation: function () {
-      this.formValidater.startEmailValidate();
-      this.formValidater.startTelValidate();
-      this.formValidater.startNameValidate();
+      this.formValidater.startEmailValidate(this.reserveBtnHandler.checkReserveBtn, this.reserveBtnHandler);
+      this.formValidater.startTelValidate(this.reserveBtnHandler.checkReserveBtn, this.reserveBtnHandler);
+      this.formValidater.startNameValidate(this.reserveBtnHandler.checkReserveBtn, this.reserveBtnHandler);
     },
 
     initEvent: function () {
@@ -2441,66 +2452,11 @@ kr.connect.reservation.service.Reserve = function () {
 
     agreeAllBtnClickListener: function (e) {
       if (this.agreeAllBtn.dataset.check === "true") {
-        this.agreeAllBtn.dataset.check = "false";
-        this.inactiveReserveBtn();
-      } else {
-        this.agreeAllBtn.dataset.check = "true";
-        if (DomUtil.hasClass(this.reserveBtnContainer, "disable")) {
-          this.activeReserveBtn();
-        }
+         this.agreeAllBtn.dataset.check = "false";
+      }else {
+         this.agreeAllBtn.dataset.check = "true";
       }
-    },
-
-    activeReserveBtn: function () {
-      if (
-        this.isFormDataValid() &&
-        this.isTicketDataValid() &&
-        this.isAgreeCheckValid()
-      ) {
-        this.reserveBtnContainer.classList.remove("disable");
-      }
-    },
-
-    inactiveReserveBtn: function () {
-      this.reserveBtnContainer.classList.add("disable");
-    },
-
-    isFormDataValid: function () {
-      return (
-        this.emailInputWarningMsg.dataset.valid === "true" &&
-        this.nameInputWarningMsg.dataset.valid === "true" &&
-        this.telInputWarningMsg.dataset.valid === "true"
-      );
-    },
-
-    isTicketDataValid: function () {
-      return this.getPricesData().length > 0;
-    },
-
-    isAgreeCheckValid: function () {
-      return this.agreeAllBtn.dataset.check === "true";
-    },
-
-    getPricesData: function () {
-      let productPriceIds = document.querySelectorAll(".productPriceId");
-      let counts = document.querySelectorAll(".count_control_input");
-      let prices = Object.values(counts)
-        .reduce((acc, cur, idx) => {
-          return [
-            ...acc,
-            {
-              count: cur.value,
-              productPriceId: productPriceIds[idx].value,
-            },
-          ];
-        }, [])
-        .filter((price) => {
-          if (price.count > 0) {
-            return price;
-          }
-        });
-
-      return prices;
+      this.reserveBtnHandler.checkReserveBtn();
     },
 
     getResevationDate: function () {
@@ -2534,31 +2490,27 @@ kr.connect.reservation.service.Reserve = function () {
     },
 
     reserveBtnClickListener: function (e) {
-      if (!DomUtil.hasClass(this.reserveBtnContainer, "disable")) {
-        if (
-          this.isTicketDataValid() &&
-          this.isFormDataValid() &&
-          this.isAgreeCheckValid()
-        ) {
-          this.postReservationData.reservationName = this.nameInput.value;
-          this.postReservationData.reservationEmail = this.emailInput.value;
-          this.postReservationData.reservationTelephone = this.telInput.value;
-          this.postReservationData.prices = this.getPricesData();
-          this.postReservationData.reservationYearMonthDay = this.getResevationDate();
+    	if (!DomUtil.hasClass(this.reserveBtnContainer, "disable")) {
+            if (this.reserveBtnHandler.isValidReserveData()) {
+                this.postReservationData.reservationName = this.nameInput.value;
+                this.postReservationData.reservationEmail = this.emailInput.value;
+                this.postReservationData.reservationTelephone = this.telInput.value;
+                this.postReservationData.prices = this.reserveBtnHandler.getPricesData();
+                this.postReservationData.reservationYearMonthDay = this.getResevationDate();
 
-          var ajax = new AjaxBuilder()
-            .setHttpMethod(Ajax.HTTP_METHOD.POST)
-            .setUrl(Ajax.URL.API.POST_RESERVATIONS)
-            .setCallback(this.postReservationApiHandler)
-            .setObjectToBind(this)
-            .build();
+                var ajax = new AjaxBuilder()
+                    .setHttpMethod(Ajax.HTTP_METHOD.POST)
+                    .setUrl(Ajax.URL.API.POST_RESERVATIONS)
+                    .setCallback(this.postReservationApiHandler)
+                    .setObjectToBind(this)
+                    .build();
 
-          ajax.setRequestBodyData(this.postReservationData);
-          ajax.requestApi();
-        } else {
-          alert("예매 티켓, 예매자 정보 입력 및 약관 동의를 체크해야합니다.");
+                ajax.setRequestBodyData(this.postReservationData);
+                ajax.requestApi();
+            } else {
+                alert("예매 티켓, 예매자 정보 입력 및 약관 동의를 체크해야합니다.");
+            }
         }
-      }
     },
 
     postReservationApiHandler: function (reserveForm) {
@@ -2573,6 +2525,95 @@ kr.connect.reservation.service.Reserve = function () {
       }
     },
   };
+  this.reserveBtnHandler = {
+	    	reserveBtnContainer: null,
+	    	agreeAllBtn: null,
+	    	nameInput: null,
+	        emailInput: null,
+	        telInput: null,
+	    	nameInputWarningMsg: null,
+	        emailInputWarningMsg: null,
+	        telInputWarningMsg: null,
+	        
+	        init : function(reserveBtnHandlerSelectors){
+	        	this.reserveBtnContainer = document.querySelector(
+	        		reserveBtnHandlerSelectors.reserveBtnContainer
+	            );
+	        	this.agreeAllBtn = document.querySelector(
+	        		reserveBtnHandlerSelectors.agreeAllBtn
+	            );
+	        	this.nameInput = document.querySelector(
+	        		reserveBtnHandlerSelectors.nameInput
+	            );
+	            this.emailInput = document.querySelector(
+	            	reserveBtnHandlerSelectors.emailInput
+	            );
+	            this.telInput = document.querySelector(
+	            	reserveBtnHandlerSelectors.telInput
+	            );
+	            this.nameInputWarningMsg = this.nameInput.nextElementSibling;
+	            this.emailInputWarningMsg = this.emailInput.nextElementSibling;
+	            this.telInputWarningMsg = this.telInput.nextElementSibling;
+	        },
+	    		
+	    	checkReserveBtn : function(){
+	    		if(this.isValidReserveData()){
+	    			this.activeReserveBtn();
+	    		}else{
+	    			this.inactiveReserveBtn();
+	    		}
+	    	},
+	    	
+	    	isValidReserveData: function(){
+	    		return (this.isFormDataValid() && this.isTicketDataValid() && this.isAgreeCheckValid());
+	    	},
+	    	
+	    	isFormDataValid: function () {
+	            return (
+	                this.emailInputWarningMsg.dataset.valid === "true" &&
+	                this.nameInputWarningMsg.dataset.valid === "true" &&
+	                this.telInputWarningMsg.dataset.valid === "true"
+	            );
+	        },
+
+	        isTicketDataValid: function () {
+	            return this.getPricesData().length > 0;
+	        },
+
+	        isAgreeCheckValid: function () {
+	            return this.agreeAllBtn.dataset.check === "true";
+	        },
+	        
+	        getPricesData: function () {
+	            let productPriceIds = document.querySelectorAll(".productPriceId");
+	            let counts = document.querySelectorAll(".count_control_input");
+	            let prices = Object.values(counts)
+	                .reduce((acc, cur, idx) => {
+	                    return [
+	                        ...acc,
+	                        {
+	                            count: cur.value,
+	                            productPriceId: productPriceIds[idx].value
+	                        }
+	                    ];
+	                }, [])
+	                .filter(price => {
+	                    if (price.count > 0) {
+	                        return price;
+	                    }
+	                });
+
+	            return prices;
+	        },
+	        
+	        activeReserveBtn: function () {
+	        	this.reserveBtnContainer.classList.remove("disable");
+	        },
+
+	        inactiveReserveBtn: function () {
+	            this.reserveBtnContainer.classList.add("disable");
+	        },
+	    };
 };
 const Reserve = kr.connect.reservation.service.Reserve;
 
@@ -2609,6 +2650,12 @@ Reserve.prototype.setProductTicket = function (productTicketSelectors) {
 
 Reserve.prototype.setReservationForm = function (reservationFormSelectors) {
   this.reservationForm.init(reservationFormSelectors);
+};
+
+Reserve.prototype.setReserveBtnHandler = function (reserveBtnHandlerSelectors) {
+    this.reserveBtnHandler.init(reserveBtnHandlerSelectors);
+    this.reservationForm.setReserveBtnHandler(this.reserveBtnHandler);
+    this.productTicket.setReserveBtnHandler(this.reserveBtnHandler);
 };
 
 Reserve.prototype.showProductInfo = function () {
@@ -2719,6 +2766,13 @@ kr.connect.reservation.service.ReserveBuilder = function () {
     telInput: null,
     reserveDate: null,
   };
+  this.reserveBtnHandlerSelectors = {
+	reserveBtnContainer : null,
+	agreeAllBtn : null,
+	nameInput: null,
+	emailInput: null,
+	telInput: null,	
+  };
 };
 const ReserveBuilder = kr.connect.reservation.service.ReserveBuilder;
 
@@ -2788,6 +2842,20 @@ ReserveBuilder.prototype.setReservationForm = function (
 
   this.reserve.setReservationForm(reservationFormSelectors);
   return this;
+};
+
+ReserveBuilder.prototype.setReserveBtnHandler = function (
+		reserveBtnHandlerSelectors
+	) {
+	
+	this.validateSelectors(reserveBtnHandlerSelectors);
+	this.validateProperty(
+	    this.reserveBtnHandlerSelectors,
+	    reserveBtnHandlerSelectors
+	);
+
+	this.reserve.setReserveBtnHandler(reserveBtnHandlerSelectors);
+	return this;
 };
 
 ReserveBuilder.prototype.build = function () {

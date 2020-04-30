@@ -226,7 +226,6 @@ public class ReservationApiController {
   @CrossOrigin
   @PostMapping(path = "/reservations/{reservationInfoId}/comments")
   public Map<String, Object> postComments(@ModelAttribute @Valid CommentParam commentParam) {
-    System.out.println(commentParam.toString());
 
     CommentResponse commentResponse = commentService.addComment(commentParam);
 

@@ -55,11 +55,19 @@ function init() {
         telInput: TEL_INPUT_SELECTOR,
         reserveDate: RESERVE_DATE_SELECTOR,
     }
+    let reserveBtnHandlerSelectors = {
+    	reserveBtnContainer : RESERVE_BTN_CONTAINER_SELECTOR,
+        agreeAllBtn : AGREE_ALL_BTN_SELECTOR,
+        nameInput: NAME_INPUT_SELECTOR,
+        emailInput: EMAIL_INPUT_SELECTOR,
+        telInput: TEL_INPUT_SELECTOR,	
+    };
 
     reserve = new reservation.ReserveBuilder()
         .setDisplayInfoId(displayInfoId)
         .setHeaderTitle(HEADER_TITLE_SELECTOR)
         .setProductInfo(productInfoSelectors)
+        .setReserveBtnHandler(reserveBtnHandlerSelectors)
         .setProductTicket(productTicketSelectors)
         .setReservationForm(reservationFormSelectors)
         .build();

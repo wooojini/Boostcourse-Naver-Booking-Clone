@@ -17,7 +17,7 @@ import kr.or.connect.reservation.util.FileUtil;
 
 @Controller
 @RequestMapping(path = "/download")
-public class FileController {
+public class ReservationFileController {
   @Autowired
   PromotionService promotionService;
 
@@ -40,12 +40,10 @@ public class FileController {
       throw new FileInfoNotFoundException();
     }
 
-
     boolean didDownload = FileUtil.download(fileInfo, response);
     if (!didDownload) {
-
+      // 파일 다운로드가 실패 했을 시에 에러 처리에 대해 궁금합니다!
     }
-
   }
 
   @CrossOrigin

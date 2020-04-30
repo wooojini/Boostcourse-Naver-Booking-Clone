@@ -190,6 +190,7 @@ const FormDataValidater = function () {
             emailInput: null,
             emailInputWarningMsg: null,
             isStartValidate: false,
+            callback: null,
 
             init: function (emailInputSelector, emailInputWarningMsg) {
                 this.emailInput = document.querySelector(emailInputSelector);
@@ -207,6 +208,9 @@ const FormDataValidater = function () {
 
             emailDataChangeListener: function () {
                 this.validate();
+                if(this.callback !== null){
+                	this.callback();
+                }
             },
 
             validate: function () {
@@ -222,9 +226,10 @@ const FormDataValidater = function () {
                     }
                 }
             },
-            startValidate: function () {
+            startValidate: function (callback) {
                 this.initEvent();
                 this.isStartValidate = true;
+                this.callback = callback;
             },
 
             showWarningMsg: function () {
@@ -240,6 +245,7 @@ const FormDataValidater = function () {
             telInput: null,
             telInputWarningMsg: null,
             isStartValidate: false,
+            callback: null,
 
             init: function (telInputSelector, telInputWarningMsg) {
                 this.telInput = document.querySelector(telInputSelector, telInputWarningMsg);
@@ -257,6 +263,9 @@ const FormDataValidater = function () {
 
             telDataChangeListener: function () {
                 this.validate();
+                if(this.callback !== null){
+                	this.callback();
+                }
             },
 
             validate: function () {
@@ -272,9 +281,10 @@ const FormDataValidater = function () {
                     }
                 }
             },
-            startValidate: function () {
+            startValidate: function (callback) {
                 this.initEvent();
                 this.isStartValidate = true;
+                this.callback = callback;
             },
 
             showWarningMsg: function () {
@@ -290,6 +300,7 @@ const FormDataValidater = function () {
             nameInput: null,
             nameInputWarningMsg: null,
             isStartValidate: false,
+            callback: null,
 
             init: function (nameInputSelector, nameInputWarningMsg) {
                 this.nameInput = document.querySelector(nameInputSelector);
@@ -307,6 +318,9 @@ const FormDataValidater = function () {
 
             nameDataChangeListener: function () {
                 this.validate();
+                if(this.callback !== null){
+                	this.callback();
+                }
             },
             validate: function () {
                 if (this.nameInput != null) {
@@ -321,9 +335,10 @@ const FormDataValidater = function () {
                     }
                 }
             },
-            startValidate: function () {
+            startValidate: function (callback) {
                 this.initEvent();
                 this.isStartValidate = true;
+                this.callback = callback;
             },
 
             showWarningMsg: function () {
@@ -362,20 +377,34 @@ FormDataValidater.prototype.submitBtnClickListener = function (e) {
 FormDataValidater.prototype.setEmailInput = function (emailInputSelector, warningMsg) {
     this.validator.emailValidater.init(emailInputSelector, warningMsg);
 };
-FormDataValidater.prototype.startEmailValidate = function () {
-    this.validator.emailValidater.startValidate();
+FormDataValidater.prototype.startEmailValidate = function (callback=null, objToBind=null) {
+	if(objToBind !== null){
+		this.validator.emailValidater.startValidate(callback.bind(objToBind));
+	}else{
+		this.validator.emailValidater.startValidate(callback);
+	}	
+    
 };
 FormDataValidater.prototype.setTelInput = function (telInputSelector, warningMsg) {
     this.validator.telValidater.init(telInputSelector, warningMsg);
 };
-FormDataValidater.prototype.startTelValidate = function () {
-    this.validator.telValidater.startValidate();
+FormDataValidater.prototype.startTelValidate = function (callback=null, objToBind=null) {
+	if(objToBind !== null){
+		this.validator.telValidater.startValidate(callback.bind(objToBind));
+	}else{
+		this.validator.telValidater.startValidate(callback);
+	}
+		
 };
 FormDataValidater.prototype.setNameInput = function (nameInputSelector, warningMsg) {
     this.validator.nameValidater.init(nameInputSelector, warningMsg);
 };
-FormDataValidater.prototype.startNameValidate = function () {
-    this.validator.nameValidater.startValidate();
+FormDataValidater.prototype.startNameValidate = function (callback=null, objToBind=null) {
+	if(objToBind !== null){
+		this.validator.nameValidater.startValidate(callback.bind(objToBind));
+	}else{
+		this.validator.nameValidater.startValidate(callback);
+	}
 };
 
 //FormDataValidaterBuilder
