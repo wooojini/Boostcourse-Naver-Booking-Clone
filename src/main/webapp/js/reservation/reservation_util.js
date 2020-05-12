@@ -1,89 +1,91 @@
 //Ajax
-const Ajax = function (httpMethod, url, callback, objectToBind) {
-    this.httpMethod = httpMethod;
-    this.url = url;
-    this.callback = callback;
-    this.objectToBind = objectToBind;
-    this.xhr = new XMLHttpRequest();
-    this.queryStr = "";
-    this.pathVar = null;
-    this.requestBody = null;
-    this.requestFormData = null;
-    this.responseType = null;
-};
-
-Ajax.prototype.setRequestParams = function (params) {
-    if (typeof params != typeof {}) {
-        throw new Error("Request parameters are required to be Object type.");
+class Ajax {
+    constructor(httpMethod, url, callback, objectToBind) {
+        this.httpMethod = httpMethod;
+        this.url = url;
+        this.callback = callback;
+        this.objectToBind = objectToBind;
+        this.xhr = new XMLHttpRequest();
+        this.queryStr = "";
+        this.pathVar = null;
+        this.requestBody = null;
+        this.requestFormData = null;
+        this.responseType = null;
     }
 
-    let searchParams = new URLSearchParams();
-    Object.keys(params).forEach((key) => {
-        searchParams.append(key, params[key]);
-    });
-    this.queryStr = `?${searchParams}`;
+    setRequestParams(params) {
+        if (typeof params != typeof {}) {
+            throw new Error("Request parameters are required to be Object type.");
+        }
+
+        let searchParams = new URLSearchParams();
+        Object.keys(params).forEach((key) => {
+            searchParams.append(key, params[key]);
+        });
+        this.queryStr = `?${searchParams}`;
+    };
+
+    setPathVariable(pathVar) {
+        this.pathVar = pathVar;
+    };
+
+    hasQueryStr() {
+        return this.queryStr.length > 0
+    };
+
+    hasPathVar() {
+        return this.pathVar != null
+    };
+
+    setRequestBodyData(requestBody) {
+        if (typeof requestBody != typeof {}) {
+            new Error("requestBody is required type of Object");
+        }
+        this.requestBody = requestBody;
+    };
+
+    setRequestFormData(requestFormData) {
+        if (requestFormData !== null) {
+            new Error("requestFormData is required type of FormData");
+        }
+        this.requestFormData = requestFormData;
+    };
+
+    setResponseType(responseType) {
+        this.responseType = responseType;
+    };
+
+    requestApi() {
+        this.xhr.addEventListener(
+            "load",
+            this.callback.bind(this.xhr, this.objectToBind)
+        );
+
+        let resultUrl = this.url;
+        if (this.hasPathVar()) {
+            resultUrl += this.pathVar;
+        }
+
+        if (this.hasQueryStr()) {
+            resultUrl += this.queryStr;
+        }
+
+        this.xhr.open(this.httpMethod, resultUrl);
+        if (this.responseType != null) {
+            this.xhr.responseType = this.responseType;
+        }
+
+        if (this.requestBody != null) {
+            this.xhr.setRequestHeader('Content-Type', 'application/json');
+            this.xhr.send(JSON.stringify(this.requestBody));
+        } else if (this.requestFormData != null) {
+            this.xhr.send(this.requestFormData);
+        } else {
+            this.xhr.send();
+        }
+    };
+
 };
-
-Ajax.prototype.setPathVariable = function (pathVar) {
-    this.pathVar = pathVar;
-};
-
-Ajax.prototype.hasQueryStr = function () {
-    return this.queryStr.length > 0
-};
-
-Ajax.prototype.hasPathVar = function () {
-    return this.pathVar != null
-};
-
-Ajax.prototype.setRequestBodyData = function (requestBody) {
-    if (typeof requestBody != typeof {}) {
-        new Error("requestBody is required type of Object");
-    }
-    this.requestBody = requestBody;
-};
-
-Ajax.prototype.setRequestFormData = function (requestFormData) {
-    if (requestFormData !== null) {
-        new Error("requestFormData is required type of FormData");
-    }
-    this.requestFormData = requestFormData;
-};
-
-Ajax.prototype.setResponseType = function (responseType) {
-    this.responseType = responseType;
-};
-
-Ajax.prototype.requestApi = function () {
-    this.xhr.addEventListener(
-        "load",
-        this.callback.bind(this.xhr, this.objectToBind)
-    );
-
-    let resultUrl = this.url;
-    if (this.hasPathVar()) {
-        resultUrl += this.pathVar;
-    }
-
-    if (this.hasQueryStr()) {
-        resultUrl += this.queryStr;
-    }
-
-    this.xhr.open(this.httpMethod, resultUrl);
-    if (this.responseType != null) {
-        this.xhr.responseType = this.responseType;
-    }
-
-    if (this.requestBody != null) {
-        this.xhr.setRequestHeader('Content-Type', 'application/json');
-        this.xhr.send(JSON.stringify(this.requestBody));
-    } else if (this.requestFormData != null) {
-        this.xhr.send(this.requestFormData);
-    } else {
-        this.xhr.send();
-    }
-};
-
 
 Ajax.HTTP_METHOD = {
     GET: "GET",
@@ -128,329 +130,354 @@ Ajax.URL.API = {
 };
 
 //AjaxBulder
-const AjaxBuilder = function () {
-    this.httpMethod = "";
-    this.url = "";
-    this.callback = null;
-    this.objectToBind = null;
-};
-
-AjaxBuilder.prototype.validateCallback = function () {
-    if (typeof this.callback != typeof (() => {})) {
-        throw new Error("Callback is not a function");
+class AjaxBuilder {
+    constructor() {
+        this.httpMethod = "";
+        this.url = "";
+        this.callback = null;
+        this.objectToBind = null;
     }
-};
 
-AjaxBuilder.prototype.validateProperty = function () {
-    if (this.httpMethod === "") {
-        throw new Error("httpMethod is required");
-    } else if (this.url === "") {
-        throw new Error("url is required");
-    } else if (this.callback === null) {
-        throw new Error("callback function is required");
-    }
-    this.validateCallback();
-};
+    validateCallback() {
+        if (typeof this.callback != typeof (() => {})) {
+            throw new Error("Callback is not a function");
+        }
+    };
 
-AjaxBuilder.prototype.setHttpMethod = function (httpMethod) {
-    this.httpMethod = httpMethod;
-    return this;
-};
+    validateProperty() {
+        if (this.httpMethod === "") {
+            throw new Error("httpMethod is required");
+        } else if (this.url === "") {
+            throw new Error("url is required");
+        } else if (this.callback === null) {
+            throw new Error("callback function is required");
+        }
+        this.validateCallback();
+    };
 
-AjaxBuilder.prototype.setUrl = function (url) {
-    this.url = url;
-    return this;
-};
+    setHttpMethod(httpMethod) {
+        this.httpMethod = httpMethod;
+        return this;
+    };
 
-AjaxBuilder.prototype.setCallback = function (callback) {
-    this.callback = callback;
-    return this;
-};
+    setUrl(url) {
+        this.url = url;
+        return this;
+    };
 
-AjaxBuilder.prototype.setObjectToBind = function (objectToBind) {
-    this.objectToBind = objectToBind;
-    return this;
-};
+    setCallback(callback) {
+        this.callback = callback;
+        return this;
+    };
 
-AjaxBuilder.prototype.build = function () {
-    try {
-        this.validateProperty();
-        return new Ajax(this.httpMethod, this.url, this.callback, this.objectToBind);
-    } catch (error) {
-        console.error(error.message);
-        return null;
-    }
+    setObjectToBind(objectToBind) {
+        this.objectToBind = objectToBind;
+        return this;
+    };
+
+    build() {
+        try {
+            this.validateProperty();
+            return new Ajax(this.httpMethod, this.url, this.callback, this.objectToBind);
+        } catch (error) {
+            console.error(error.message);
+            return null;
+        }
+    };
 };
 
 //FormDataValidater
-const FormDataValidater = function () {
-    this.validator = {
-        emailValidater: {
-            emailPattern: /(^[a-zA-Z][a-zA-Z0-9]+)(@)([a-zA-Z]+)\.([a-zA-Z]+)(\.[a-zA-Z]+)?/,
-            emailInput: null,
-            emailInputWarningMsg: null,
-            isStartValidate: false,
-            callback: null,
+class FormDataValidater {
+    constructor() {
+        this.validator = {
+            emailValidater: {
+                emailPattern: /(^[a-zA-Z][a-zA-Z0-9]+)(@)([a-zA-Z]+)\.([a-zA-Z]+)(\.[a-zA-Z]+)?/,
+                emailInput: null,
+                emailInputWarningMsg: null,
+                isStartValidate: false,
+                callback: null,
 
-            init: function (emailInputSelector, emailInputWarningMsg) {
-                this.emailInput = document.querySelector(emailInputSelector);
-                this.emailInputWarningMsg = emailInputWarningMsg;
-            },
+                init: function (emailInputSelector, emailInputWarningMsg) {
+                    this.emailInput = document.querySelector(emailInputSelector);
+                    this.emailInputWarningMsg = emailInputWarningMsg;
+                },
 
-            initEvent: function () {
-                this.emailInput.addEventListener("change", this.emailDataChangeListener.bind(this));
-                this.emailInputWarningMsg.addEventListener("click", this.warningMsgClickListener.bind(this));
-            },
+                initEvent: function () {
+                    this.emailInput.addEventListener("change", this.emailDataChangeListener.bind(this));
+                    this.emailInputWarningMsg.addEventListener("click", this.warningMsgClickListener.bind(this));
+                },
 
-            warningMsgClickListener: function () {
-                this.hideWarningMsg();
-            },
+                warningMsgClickListener: function () {
+                    this.hideWarningMsg();
+                },
 
-            emailDataChangeListener: function () {
-                this.validate();
-                if(this.callback !== null){
-                	this.callback();
-                }
-            },
-
-            validate: function () {
-                if (this.emailInput != null) {
-                    var emailValue = this.emailInput.value;
-                    var isValid = this.emailPattern.test(emailValue);
-
-                    if (!isValid) {
-                        this.showWarningMsg();
-                        this.emailInputWarningMsg.dataset.valid = "false";
-                    } else {
-                        this.emailInputWarningMsg.dataset.valid = "true";
+                emailDataChangeListener: function () {
+                    this.validate();
+                    if (this.callback !== null) {
+                        this.callback();
                     }
-                }
-            },
-            startValidate: function (callback) {
-                this.initEvent();
-                this.isStartValidate = true;
-                this.callback = callback;
-            },
+                },
 
-            showWarningMsg: function () {
-                this.emailInputWarningMsg.style.visibility = "visible";
-            },
+                validate: function () {
+                    if (this.emailInput != null) {
+                        var emailValue = this.emailInput.value;
+                        var isValid = this.emailPattern.test(emailValue);
 
-            hideWarningMsg: function () {
-                this.emailInputWarningMsg.style.visibility = 'hidden';
-            },
-        },
-        telValidater: {
-            telPattern: /^0[0-9]{1,2}-[0-9]{3,4}-[0-9]{4}/,
-            telInput: null,
-            telInputWarningMsg: null,
-            isStartValidate: false,
-            callback: null,
-
-            init: function (telInputSelector, telInputWarningMsg) {
-                this.telInput = document.querySelector(telInputSelector, telInputWarningMsg);
-                this.telInputWarningMsg = telInputWarningMsg;
-            },
-
-            initEvent: function () {
-                this.telInput.addEventListener("change", this.telDataChangeListener.bind(this));
-                this.telInputWarningMsg.addEventListener("click", this.warningMsgClickListener.bind(this));
-            },
-
-            warningMsgClickListener: function () {
-                this.hideWarningMsg();
-            },
-
-            telDataChangeListener: function () {
-                this.validate();
-                if(this.callback !== null){
-                	this.callback();
-                }
-            },
-
-            validate: function () {
-                if (this.telInput != null) {
-                    var telValue = this.telInput.value;
-                    var isValid = this.telPattern.test(telValue);
-
-                    if (!isValid) {
-                        this.showWarningMsg();
-                        this.telInputWarningMsg.dataset.valid = "false";
-                    } else {
-                        this.telInputWarningMsg.dataset.valid = "true";
+                        if (!isValid) {
+                            this.showWarningMsg();
+                            this.emailInputWarningMsg.dataset.valid = "false";
+                        } else {
+                            this.emailInputWarningMsg.dataset.valid = "true";
+                        }
                     }
-                }
-            },
-            startValidate: function (callback) {
-                this.initEvent();
-                this.isStartValidate = true;
-                this.callback = callback;
-            },
+                },
+                startValidate: function (callback) {
+                    this.initEvent();
+                    this.isStartValidate = true;
+                    this.callback = callback;
+                },
 
-            showWarningMsg: function () {
-                this.telInputWarningMsg.style.visibility = "visible";
-            },
+                showWarningMsg: function () {
+                    this.emailInputWarningMsg.style.visibility = "visible";
+                },
 
-            hideWarningMsg: function () {
-                this.telInputWarningMsg.style.visibility = 'hidden';
+                hideWarningMsg: function () {
+                    this.emailInputWarningMsg.style.visibility = 'hidden';
+                },
             },
-        },
-        nameValidater: {
-            namePattern: /^\D(?:\D+)?\D$/,
-            nameInput: null,
-            nameInputWarningMsg: null,
-            isStartValidate: false,
-            callback: null,
+            telValidater: {
+                telPattern: /^0[0-9]{1,2}-[0-9]{3,4}-[0-9]{4}/,
+                telInput: null,
+                telInputWarningMsg: null,
+                isStartValidate: false,
+                callback: null,
 
-            init: function (nameInputSelector, nameInputWarningMsg) {
-                this.nameInput = document.querySelector(nameInputSelector);
-                this.nameInputWarningMsg = nameInputWarningMsg;
-            },
+                init: function (telInputSelector, telInputWarningMsg) {
+                    this.telInput = document.querySelector(telInputSelector, telInputWarningMsg);
+                    this.telInputWarningMsg = telInputWarningMsg;
+                },
 
-            initEvent: function () {
-                this.nameInput.addEventListener("change", this.nameDataChangeListener.bind(this));
-                this.nameInputWarningMsg.addEventListener("click", this.warningMsgClickListener.bind(this));
-            },
+                initEvent: function () {
+                    this.telInput.addEventListener("change", this.telDataChangeListener.bind(this));
+                    this.telInputWarningMsg.addEventListener("click", this.warningMsgClickListener.bind(this));
+                },
 
-            warningMsgClickListener: function () {
-                this.hideWarningMsg();
-            },
+                warningMsgClickListener: function () {
+                    this.hideWarningMsg();
+                },
 
-            nameDataChangeListener: function () {
-                this.validate();
-                if(this.callback !== null){
-                	this.callback();
-                }
-            },
-            validate: function () {
-                if (this.nameInput != null) {
-                    var nameValue = this.nameInput.value;
-                    var isValid = this.namePattern.test(nameValue);
-
-                    if (!isValid) {
-                        this.showWarningMsg();
-                        this.nameInputWarningMsg.dataset.valid = "false";
-                    } else {
-                        this.nameInputWarningMsg.dataset.valid = "true";
+                telDataChangeListener: function () {
+                    this.validate();
+                    if (this.callback !== null) {
+                        this.callback();
                     }
-                }
-            },
-            startValidate: function (callback) {
-                this.initEvent();
-                this.isStartValidate = true;
-                this.callback = callback;
-            },
+                },
 
-            showWarningMsg: function () {
-                this.nameInputWarningMsg.style.visibility = "visible";
-            },
+                validate: function () {
+                    if (this.telInput != null) {
+                        var telValue = this.telInput.value;
+                        var isValid = this.telPattern.test(telValue);
 
-            hideWarningMsg: function () {
-                this.nameInputWarningMsg.style.visibility = 'hidden';
-            },
-        },
-    };
-    this.form = null;
-    this.submitBtn = null;
-    this.submitBtnClickCallback = null;
-};
-FormDataValidater.prototype.setForm = function (formSelector) {
-    this.form = document.querySelector(formSelector);
-};
-FormDataValidater.prototype.setSubmitBtn = function (submitBtnSelector) {
-    this.submitBtn = document.querySelector(submitBtnSelector);
-    this.initEvent();
-};
-FormDataValidater.prototype.setSubmitBtnCallback = function (callback) {
-    this.submitBtnClickCallback = callback;
-};
-FormDataValidater.prototype.initEvent = function () {
-    this.submitBtn.addEventListener("click", this.submitBtnClickListener.bind(this));
-};
-FormDataValidater.prototype.submitBtnClickListener = function (e) {
-    e.preventDefault();
+                        if (!isValid) {
+                            this.showWarningMsg();
+                            this.telInputWarningMsg.dataset.valid = "false";
+                        } else {
+                            this.telInputWarningMsg.dataset.valid = "true";
+                        }
+                    }
+                },
+                startValidate: function (callback) {
+                    this.initEvent();
+                    this.isStartValidate = true;
+                    this.callback = callback;
+                },
 
-    if (this.submitBtnClickCallback != null) {
-        this.submitBtnClickCallback();
+                showWarningMsg: function () {
+                    this.telInputWarningMsg.style.visibility = "visible";
+                },
+
+                hideWarningMsg: function () {
+                    this.telInputWarningMsg.style.visibility = 'hidden';
+                },
+            },
+            nameValidater: {
+                namePattern: /^\D(?:\D+)?\D$/,
+                nameInput: null,
+                nameInputWarningMsg: null,
+                isStartValidate: false,
+                callback: null,
+
+                init: function (nameInputSelector, nameInputWarningMsg) {
+                    this.nameInput = document.querySelector(nameInputSelector);
+                    this.nameInputWarningMsg = nameInputWarningMsg;
+                },
+
+                initEvent: function () {
+                    this.nameInput.addEventListener("change", this.nameDataChangeListener.bind(this));
+                    this.nameInputWarningMsg.addEventListener("click", this.warningMsgClickListener.bind(this));
+                },
+
+                warningMsgClickListener: function () {
+                    this.hideWarningMsg();
+                },
+
+                nameDataChangeListener: function () {
+                    this.validate();
+                    if (this.callback !== null) {
+                        this.callback();
+                    }
+                },
+                validate: function () {
+                    if (this.nameInput != null) {
+                        var nameValue = this.nameInput.value;
+                        var isValid = this.namePattern.test(nameValue);
+
+                        if (!isValid) {
+                            this.showWarningMsg();
+                            this.nameInputWarningMsg.dataset.valid = "false";
+                        } else {
+                            this.nameInputWarningMsg.dataset.valid = "true";
+                        }
+                    }
+                },
+                startValidate: function (callback) {
+                    this.initEvent();
+                    this.isStartValidate = true;
+                    this.callback = callback;
+                },
+
+                showWarningMsg: function () {
+                    this.nameInputWarningMsg.style.visibility = "visible";
+                },
+
+                hideWarningMsg: function () {
+                    this.nameInputWarningMsg.style.visibility = 'hidden';
+                },
+            },
+        };
+        this.form = null;
+        this.submitBtn = null;
+        this.submitBtnClickCallback = null;
     }
-};
-FormDataValidater.prototype.setEmailInput = function (emailInputSelector, warningMsg) {
-    this.validator.emailValidater.init(emailInputSelector, warningMsg);
-};
-FormDataValidater.prototype.startEmailValidate = function (callback=null, objToBind=null) {
-	if(objToBind !== null){
-		this.validator.emailValidater.startValidate(callback.bind(objToBind));
-	}else{
-		this.validator.emailValidater.startValidate(callback);
-	}	
-    
-};
-FormDataValidater.prototype.setTelInput = function (telInputSelector, warningMsg) {
-    this.validator.telValidater.init(telInputSelector, warningMsg);
-};
-FormDataValidater.prototype.startTelValidate = function (callback=null, objToBind=null) {
-	if(objToBind !== null){
-		this.validator.telValidater.startValidate(callback.bind(objToBind));
-	}else{
-		this.validator.telValidater.startValidate(callback);
-	}
-		
-};
-FormDataValidater.prototype.setNameInput = function (nameInputSelector, warningMsg) {
-    this.validator.nameValidater.init(nameInputSelector, warningMsg);
-};
-FormDataValidater.prototype.startNameValidate = function (callback=null, objToBind=null) {
-	if(objToBind !== null){
-		this.validator.nameValidater.startValidate(callback.bind(objToBind));
-	}else{
-		this.validator.nameValidater.startValidate(callback);
-	}
+
+    setForm(formSelector) {
+        this.form = document.querySelector(formSelector);
+    };
+
+    setSubmitBtn(submitBtnSelector) {
+        this.submitBtn = document.querySelector(submitBtnSelector);
+        this.initEvent();
+    };
+
+    setSubmitBtnCallback(callback) {
+        this.submitBtnClickCallback = callback;
+    };
+
+    initEvent() {
+        this.submitBtn.addEventListener("click", this.submitBtnClickListener.bind(this));
+    };
+
+    submitBtnClickListener(e) {
+        e.preventDefault();
+
+        if (this.submitBtnClickCallback != null) {
+            this.submitBtnClickCallback();
+        }
+    };
+
+    setEmailInput(emailInputSelector, warningMsg) {
+        this.validator.emailValidater.init(emailInputSelector, warningMsg);
+    };
+
+    startEmailValidate(callback = null, objToBind = null) {
+        if (objToBind !== null) {
+            this.validator.emailValidater.startValidate(callback.bind(objToBind));
+        } else {
+            this.validator.emailValidater.startValidate(callback);
+        }
+
+    };
+
+    setTelInput(telInputSelector, warningMsg) {
+        this.validator.telValidater.init(telInputSelector, warningMsg);
+    };
+
+    startTelValidate(callback = null, objToBind = null) {
+        if (objToBind !== null) {
+            this.validator.telValidater.startValidate(callback.bind(objToBind));
+        } else {
+            this.validator.telValidater.startValidate(callback);
+        }
+
+    };
+
+    setNameInput(nameInputSelector, warningMsg) {
+        this.validator.nameValidater.init(nameInputSelector, warningMsg);
+    };
+
+    startNameValidate(callback = null, objToBind = null) {
+        if (objToBind !== null) {
+            this.validator.nameValidater.startValidate(callback.bind(objToBind));
+        } else {
+            this.validator.nameValidater.startValidate(callback);
+        }
+    };
 };
 
 //FormDataValidaterBuilder
-const FormDataValidaterBuilder = function () {
-    this.formDataValidater = new FormDataValidater();
-}
-FormDataValidaterBuilder.prototype.validateSelector = function (selector) {
-    if (selector.match(this.selectorPattern) === null) {
-        new Error(`Selector is not matched : ${selector}`);
+class FormDataValidaterBuilder {
+    constructor() {
+        this.formDataValidater = new FormDataValidater();
     }
-};
-FormDataValidaterBuilder.prototype.setForm = function (formSelector) {
-    this.validateSelector(formSelector);
-    this.formDataValidater.setForm(formSelector);
-    return this;
-};
-FormDataValidaterBuilder.prototype.setSubmitBtn = function (submitBtnSelector) {
-    this.validateSelector(submitBtnSelector);
-    this.formDataValidater.setSubmitBtn(submitBtnSelector);
-    return this;
-};
-FormDataValidaterBuilder.prototype.setSubmitBtnCallback = function (callback) {
-    this.formDataValidater.setSubmitBtnCallback(callback);
-    return this;
-};
-FormDataValidaterBuilder.prototype.setEmailInput = function (emailInputSelector, emailInputContainer) {
-    this.validateSelector(emailInputSelector);
-    this.formDataValidater.setEmailInput(emailInputSelector, emailInputContainer);
-    return this;
-};
-FormDataValidaterBuilder.prototype.setTelInput = function (telInputSelector, telInputContainer) {
-    this.validateSelector(telInputSelector);
-    this.formDataValidater.setTelInput(telInputSelector, telInputContainer);
-    return this;
-};
-FormDataValidaterBuilder.prototype.setNameInput = function (nameInputSelector, nameInputContainer) {
-    this.validateSelector(nameInputSelector);
-    this.formDataValidater.setNameInput(nameInputSelector, nameInputContainer);
-    return this;
-};
-FormDataValidaterBuilder.prototype.build = function () {
-    return this.formDataValidater;
-};
+
+    validateSelector(selector) {
+        if (selector.match(this.selectorPattern) === null) {
+            new Error(`Selector is not matched : ${selector}`);
+        }
+    };
+
+    setForm(formSelector) {
+        this.validateSelector(formSelector);
+        this.formDataValidater.setForm(formSelector);
+        return this;
+    };
+
+    setSubmitBtn(submitBtnSelector) {
+        this.validateSelector(submitBtnSelector);
+        this.formDataValidater.setSubmitBtn(submitBtnSelector);
+        return this;
+    };
+
+    setSubmitBtnCallback(callback) {
+        this.formDataValidater.setSubmitBtnCallback(callback);
+        return this;
+    };
+
+    setEmailInput(emailInputSelector, emailInputContainer) {
+        this.validateSelector(emailInputSelector);
+        this.formDataValidater.setEmailInput(emailInputSelector, emailInputContainer);
+        return this;
+    };
+
+    setTelInput(telInputSelector, telInputContainer) {
+        this.validateSelector(telInputSelector);
+        this.formDataValidater.setTelInput(telInputSelector, telInputContainer);
+        return this;
+    };
+
+    setNameInput(nameInputSelector, nameInputContainer) {
+        this.validateSelector(nameInputSelector);
+        this.formDataValidater.setNameInput(nameInputSelector, nameInputContainer);
+        return this;
+    };
+
+    build() {
+        return this.formDataValidater;
+    };
+}
 
 //DomUtil
-const DomUtil = function () {};
+class DomUtil {};
 
 DomUtil.findChildNodeByClassName = function (parentNode, classSelector) {
     return Object.values(parentNode.children).filter(child => {
@@ -466,6 +493,7 @@ DomUtil.findChildNodeByClassName = function (parentNode, classSelector) {
     })[0];
 };
 
+//DomUtil
 DomUtil.hasClass = function (node, className) {
     let hasClassName = false;
     Object.values(node.classList).forEach(classValue => {
@@ -478,7 +506,7 @@ DomUtil.hasClass = function (node, className) {
 }
 
 //StrUtil
-const StrUtil = function () {};
+class StrUtil {};
 
 StrUtil.reverseStr = function (str) {
     let reverseStr = str.split("").reverse().join("");
