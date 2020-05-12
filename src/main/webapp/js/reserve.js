@@ -1,4 +1,4 @@
-import * as reservation from "./reservation/reservation.js";
+import { ReserveBuilder } from "./reservation/service/reservation/reserve.js"; 
 
 const DISPLAY_INFO_ID_SELECTOR = "#displayInfoId";
 
@@ -63,7 +63,7 @@ function init() {
         telInput: TEL_INPUT_SELECTOR,	
     };
 
-    reserve = new reservation.ReserveBuilder()
+    reserve = new ReserveBuilder()
         .setDisplayInfoId(displayInfoId)
         .setHeaderTitle(HEADER_TITLE_SELECTOR)
         .setProductInfo(productInfoSelectors)

@@ -1,4 +1,5 @@
-import * as reservation from "./reservation/reservation.js";
+import { RatingBuilder } from "./reservation/ui/rating.js"
+import { ReviewWriteBuilder } from "./reservation/service/review/reviewWrite.js"; 
 
 const RATING_CONTAINER_SELECTOR = ".rating";
 const RATING_SCORE_SELECTOR = ".star_rank";
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function init() {
-  rating = new reservation.RatingBuilder()
+  rating = new RatingBuilder()
     .setRatingContainer(RATING_CONTAINER_SELECTOR)
     .setRatingScore(RATING_SCORE_SELECTOR)
     .build();
@@ -42,7 +43,7 @@ function init() {
     thumbNailImgContainer: REVIEW_THUMB_IMAGE_CONTAINER_SELECTOR,
   };
 
-  reviewWrite = new reservation.ReviewWriteBuilder()
+  reviewWrite = new ReviewWriteBuilder()
     .setReservationInfoId(reservationInfoId)
     .setProductId(productId)
     .setAddReviewBtn(ADD_REVIEW_BTN_SELECTOR)

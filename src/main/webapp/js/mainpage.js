@@ -1,4 +1,6 @@
-import * as reservation from "./reservation/reservation.js";
+import { TabMenuBuilder } from "./reservation/ui/tabmenu.js";
+import { PromotionBuilder } from "./reservation/service/promotion/promotion.js";
+import { CategoryBuilder } from "./reservation/service/category/category.js";
 
 const TEMPLATE_PROMOTION_ITEM_SELECTOR = "#promotionItem";
 const TEMPLATE_CATEGORY_TAB_SELECTOR = "#eventTabItem";
@@ -11,7 +13,6 @@ const CATEGORY_TAB_CONTAINER_SELECTOR = ".event_tab_lst";
 const CATEGORY_COUNT_SELECTOR = ".event_lst_txt span";
 const CATEGORY_ITEM_CONTAINER_SELECTOR = ".lst_event_box";
 const MORE_BOTTON_SELECTOR = ".more .btn";
-
 
 var promotion;
 var category;
@@ -29,17 +30,17 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function init() {
-  tabMenu = new reservation.TabMenuBuilder()
+  tabMenu = new TabMenuBuilder()
     .setTabMenuContainer(CATEGORY_TAB_CONTAINER_SELECTOR)
     .build();
 
-  promotion = new reservation.PromotionBuilder()
+  promotion = new PromotionBuilder()
     .setPromotionImgContainer(PROMOTION_IMG_CONTAINER_SELECTOR)
     .setPromotionItemHtml(TEMPLATE_PROMOTION_ITEM_SELECTOR)
     .setPromotionItemSelector(PROMOTION_ITEM_SELECTOR)
     .build();
 
-  category = new reservation.CategoryBuilder()
+  category = new CategoryBuilder()
     .setCategoryTabMenu(tabMenu)
     .setCategoryTabHtml(TEMPLATE_CATEGORY_TAB_SELECTOR)
     .setCategoryCount(CATEGORY_COUNT_SELECTOR)

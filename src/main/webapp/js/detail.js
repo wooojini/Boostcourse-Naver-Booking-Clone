@@ -1,4 +1,6 @@
-import * as reservation from "./reservation/reservation.js";
+import { AccodionBuilder } from "./reservation/ui/accordion.js";
+import { TabMenuBuilder } from "./reservation/ui/tabmenu.js";
+import { ProductBuilder } from "./reservation/service/product/product.js";
 
 const DISPLAY_INFO_ID_SELECTOR = "#displayInfoId";
 
@@ -47,14 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function init() {
-    accodion = new reservation.AccodionBuilder()
+    accodion = new AccodionBuilder()
         .setContainer(ACCODION_CONTAINER_SELECTOR)
         .setContent(ACCODION_CONTENT_SELECTOR)
         .setOpenBtn(ACCODION_OPEN_BTN_SELECTOR)
         .setCloseBtn(ACCODION_CLOSE_BTN_SELECTOR)
         .build();
 
-    tabMenu = new reservation.TabMenuBuilder()
+    tabMenu = new TabMenuBuilder()
         .setTabMenuContainer(TAB_MENU_CONTAINER_SELECTOR)
         .build();
 
@@ -85,7 +87,7 @@ function init() {
         productImgsSelector: PRODUCT_IMGS_SELECTOR,
     };
 
-    product = new reservation.ProductBuilder()
+    product = new ProductBuilder()
         .setDisplayInfoId(displayInfoId)
         .setInfoDetail(infoDetailSelectors)
         .setReview(reviewSelectors)

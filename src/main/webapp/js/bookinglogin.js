@@ -1,4 +1,4 @@
-import * as reservation from "./reservation/reservation.js";
+import { FormDataValidaterBuilder } from "./reservation/util/validater.js"; 
 
 const FORM_SELECTOR = "#form1";
 const INPUT_EMAIL_SELECTOR = "#resrv_id";
@@ -19,7 +19,7 @@ function init() {
     let warningMsg = document.querySelector(WARNING_MSG_SELECTOR);
     let form = document.querySelector(FORM_SELECTOR);
 
-    formValidater = new reservation.FormDataValidaterBuilder()
+    formValidater = new FormDataValidaterBuilder()
         .setForm(FORM_SELECTOR)
         .setSubmitBtn(SUBMIT_BTN_SELECTOR)
         .setSubmitBtnCallback(confirmBtnClickListener.bind(null, form, warningMsg))

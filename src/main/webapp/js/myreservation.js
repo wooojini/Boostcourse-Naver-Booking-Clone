@@ -1,4 +1,4 @@
-import * as reservation from "./reservation/reservation.js";
+import { MyReservationBuilder } from "./reservation/service/reservation/myreservation.js"; 
 
 const TEMPLATE_CONFIRM_ITEM_SELECTOR = "#confirmItem";
 const TEMPLATE_CANCEL_ITEM_SELECTOR = "#cancelItem";
@@ -48,7 +48,7 @@ function init() {
         popupBtnContainer: CANCEL_POPUP_BTN_CONTAINER_SELECTOR,
     };
 
-    myReservation = new reservation.MyReservationBuilder()
+    myReservation = new MyReservationBuilder()
         .setReservationEmail(reservationEmail)
         .setReservationSummaryBoard(SUMMARY_ITEM_SELECTOR)
         .setReservationInfo(reservationInfoSelectors, cancelPopupSelectors)

@@ -1,4 +1,4 @@
-import * as reservation from "./reservation/reservation.js";
+import { ProductBuilder } from "./reservation/service/product/product.js";
 
 const DISPLAY_INFO_ID_SELECTOR = "#displayInfoId";
 const RATING_GRAPH_SELECTOR = '.graph_value';
@@ -27,11 +27,10 @@ function init() {
         reviewHtml: TEMPLATE_REVIEW_SELECTOR
     };
 
-    product = new reservation.ProductBuilder()
+    product = new ProductBuilder()
         .setDisplayInfoId(displayInfoId)
         .setReview(reviewSelectors)
         .build();
-
 }
 
 function showReviews() {
