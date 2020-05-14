@@ -52,17 +52,16 @@ class ReviewWrite{
     	let reviewText = textAreaNode.value;
     		
     	if(reviewText.length === 0){
-    	  this.showReviewWriteInfo();	
+    	  this.showReviewWriteInfo();	 
     	}
       },
 
       reviewTextAreakeyupListener: function (e) {
         let reviewText = e.target.value;
-
+        
         if (reviewText.length > this.MAX_TEXT_NUM) {
           reviewText = reviewText.substring(0, this.MAX_TEXT_NUM);
           this.reviewTextArea.value = reviewText;
-
           this.showTextNum(this.MAX_TEXT_NUM);
         } else {
           this.showTextNum(reviewText.length);
