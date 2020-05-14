@@ -120,13 +120,13 @@
                 </div>
                 <div class="section_store_details">
                     <div class="store_details close3">
-                        <p class="dsc"></p>
+                        <p name="dsc" class="dsc"></p>
                     </div>
-                    <a href="#" class="bk_more _open">
+                    <a href="#dsc" class="bk_more _open">
                         <span class="bk_more_txt">펼쳐보기</span>
                         <i class="fn fn-down2"></i>
                     </a>
-                    <a href="#" class="bk_more _close hide">
+                    <a href="#dsc" class="bk_more _close hide">
                         <span class="bk_more_txt">접기</span> <i class="fn fn-up2"></i>
                     </a>
                 </div>

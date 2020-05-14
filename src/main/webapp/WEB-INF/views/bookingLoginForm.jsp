@@ -65,8 +65,8 @@
 
       <div class="_view_content" ui-view="content" id="container">
          <booked-confirm>
-            <div class="booking_login">
-               <h1 class="login_header" name="top"> <a href="./" class="nbooking_logo spr_bi txt_logo">
+            <div class="booking_login" name="top">
+               <h1 class="login_header"> <a href="./" class="nbooking_logo spr_bi txt_logo">
                      <span translate="CM-NBOOKING">네이버 예약</span> </a> </h1>
                <!---->
                <div>
@@ -92,7 +92,7 @@
       </div>
       <footer aria-hidden="false">
          <go-to-top>
-            <div class="gototop" aria-hidden="false"> <a href="#top" class="lnk_top"> <span class="lnk_top_text"
+            <div class="gototop" aria-hidden="false"> <a href="./bookingLoginForm#top" class="lnk_top"> <span class="lnk_top_text"
                      translate="CM-TOP">TOP</span> </a> </div>
          </go-to-top>
          <!---->
