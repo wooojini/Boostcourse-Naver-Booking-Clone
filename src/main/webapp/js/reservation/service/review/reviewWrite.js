@@ -47,8 +47,13 @@ class ReviewWrite{
         this.focusTextArea();
       },
 
-      reviewTextAreaFocusoutListener: function () {
-        this.showReviewWriteInfo();
+      reviewTextAreaFocusoutListener: function (e) {
+    	let textAreaNode = e.target;
+    	let reviewText = textAreaNode.value;
+    		
+    	if(reviewText.length === 0){
+    	  this.showReviewWriteInfo();	
+    	}
       },
 
       reviewTextAreakeyupListener: function (e) {
