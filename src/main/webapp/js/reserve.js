@@ -1,3 +1,5 @@
+'use strict';
+
 import { ReserveBuilder } from "./reservation/service/reservation/reserve.js"; 
 
 const DISPLAY_INFO_ID_SELECTOR = "#displayInfoId";

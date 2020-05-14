@@ -1,3 +1,5 @@
+'use strict';
+
 import { TabMenuBuilder } from "./reservation/ui/tabmenu.js";
 import { PromotionBuilder } from "./reservation/service/promotion/promotion.js";
 import { CategoryBuilder } from "./reservation/service/category/category.js";

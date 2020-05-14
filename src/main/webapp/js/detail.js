@@ -1,3 +1,5 @@
+'use strict';
+
 import { AccodionBuilder } from "./reservation/ui/accordion.js";
 import { TabMenuBuilder } from "./reservation/ui/tabmenu.js";
 import { ProductBuilder } from "./reservation/service/product/product.js";

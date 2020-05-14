@@ -1,3 +1,5 @@
+'use strict';
+
 import { MyReservationBuilder } from "./reservation/service/reservation/myreservation.js"; 
 
 const TEMPLATE_CONFIRM_ITEM_SELECTOR = "#confirmItem";

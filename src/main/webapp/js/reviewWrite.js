@@ -1,3 +1,5 @@
+'use strict';
+
 import { RatingBuilder } from "./reservation/ui/rating.js"
 import { ReviewWriteBuilder } from "./reservation/service/review/reviewWrite.js"; 
 

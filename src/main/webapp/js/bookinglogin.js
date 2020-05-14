@@ -1,3 +1,5 @@
+'use strict';
+
 import { FormDataValidaterBuilder } from "./reservation/util/validater.js"; 
 
 const FORM_SELECTOR = "#form1";

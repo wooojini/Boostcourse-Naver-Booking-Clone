@@ -1,3 +1,5 @@
+'use strict';
+
 import { ProductBuilder } from "./reservation/service/product/product.js";
 
 const DISPLAY_INFO_ID_SELECTOR = "#displayInfoId";
